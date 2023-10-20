@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<form id="myForm">
+    <label for="link">Link:</label>
+    <input type="text" id="link" name="link"><br><br>
+
+    <label for="quotes">Quotes:</label><br>
+    <textarea id="quotes" name="quotes" rows="10" cols="50"></textarea><br><br>
+
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id"><br><br>
+
+    <label for="download_link">Download Link:</label>
+    <input type="text" id="download_link" name="download_link"><br><br>
+
+    <label for="start_num">Start Num:</label>
+    <input type="number" id="start_num" name="start_num" value="1"><br><br>
+
+    <input type="checkbox" id="verbose" name="verbose">
+    <label for="verbose">Verbose</label><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+<script>
+    $(document).ready(function(){
+        $("#myForm").submit(function(event){
+            event.preventDefault(); // Prevent form from submitting the traditional way
+            var formData = {
+                'link': $('#link').val(),
+                'quotes': $('#quotes').val(),
+                'id': $('#id').val(),
+                'download_link': $('#download_link').val(),
+                'start_num': $('#start_num').val(),
+                'verbose': $('#verbose').is(':checked')
+            };
+
+            // Assuming your Flask app is hosted on Heroku or another platform at this URL
+            var apiUrl = "https://epicdoughnut.pythonanywhere.com/";
+
+            $.ajax({
+                type: 'POST',
+                url: apiUrl,
+                data: formData,
+                success: function(data){
+                    alert("Data submitted!");
+                },
+                error: function(){
+                    alert("Error submitting data.");
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
